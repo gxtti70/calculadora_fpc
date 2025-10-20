@@ -1,0 +1,102 @@
+[
+  {
+    "id": 87,
+    "name": "Atlético Nacional",
+    "crest": "https://media.api-sports.io/football/teams/87.png"
+  },
+  {
+    "id": 90,
+    "name": "Millonarios",
+    "crest": "https://media.api-sports.io/football/teams/90.png"
+  },
+  {
+    "id": 89,
+    "name": "América de Cali",
+    "crest": "https://media.api-sports.io/football/teams/89.png"
+  },
+  {
+    "id": 88,
+    "name": "Independiente Medellín",
+    "crest": "https://media.api-sports.io/football/teams/88.png"
+  },
+  {
+    "id": 204,
+    "name": "Deportes Tolima",
+    "crest": "https://media.api-sports.io/football/teams/204.png"
+  },
+  {
+    "id": 205,
+    "name": "Junior",
+    "crest": "https://media.api-sports.io/football/teams/205.png"
+  },
+  {
+    "id": 206,
+    "name": "Once Caldas",
+    "crest": "https://media.api-sports.io/football/teams/206.png"
+  },
+  {
+    "id": 207,
+    "name": "Santa Fe",
+    "crest": "https://media.api-sports.io/football/teams/207.png"
+  },
+  {
+    "id": 208,
+    "name": "Deportivo Pereira",
+    "crest": "https://media.api-sports.io/football/teams/208.png"
+  },
+  {
+    "id": 209,
+    "name": "La Equidad",
+    "crest": "https://media.api-sports.io/football/teams/209.png"
+  },
+  {
+    "id": 210,
+    "name": "Atlético Bucaramanga",
+    "crest": "https://media.api-sports.io/football/teams/210.png"
+  },
+  {
+    "id": 211,
+    "name": "Boyacá Chicó",
+    "crest": "https://media.api-sports.io/football/teams/211.png"
+  },
+  {
+    "id": 212,
+    "name": "Alianza FC",
+    "crest": "https://media.api-sports.io/football/teams/212.png"
+  },
+  {
+    "id": 213,
+    "name": "Águilas Doradas",
+    "crest": "https://media.api-sports.io/football/teams/213.png"
+  },
+  {
+    "id": 214,
+    "name": "Envigado",
+    "crest": "https://media.api-sports.io/football/teams/214.png"
+  },
+  {
+    "id": 215,
+    "name": "Jaguares",
+    "crest": "https://media.api-sports.io/football/teams/215.png"
+  },
+  {
+    "id": 216,
+    "name": "Deportivo Pasto",
+    "crest": "https://media.api-sports.io/football/teams/216.png"
+  },
+  {
+    "id": 217,
+    "name": "Fortaleza CEIF",
+    "crest": "https://media.api-sports.io/football/teams/217.png"
+  },
+  {
+    "id": 218,
+    "name": "Cúcuta Deportivo",
+    "crest": "https://media.api-sports.io/football/teams/218.png"
+  },
+  {
+    "id": 219,
+    "name": "Patriotas",
+    "crest": "https://media.api-sports.io/football/teams/219.png"
+  }
+]

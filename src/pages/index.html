@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calculadora Fútbol Colombiano - Prototipo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Calculadora - Campeonato Colombiano</h1>
+    <p class="subtitle">
+      Ingresa resultados, simula fechas y genera cuadrangulares.
+      Guardado local en tu navegador.
+    </p>
+  </header>
+
+  <main class="container">
+    <section id="settings" class="card">
+      <div class="row between">
+        <h2>Equipos</h2>
+        <div class="controls">
+          <button id="load-sample-btn" class="btn">Cargar 20 equipos</button>
+          <button id="add-team-btn" class="btn">Agregar equipo</button>
+          <!-- Nuevo botón para API-FOOTBALL -->
+          <button id="load-api-football" class="btn outline">Cargar equipos reales (API-Football)</button>
+          <button id="generate-fixtures-btn" class="btn outline">Generar calendario</button>
+        </div>
+      </div>
+
+      <div id="teams-list" class="teams-grid" aria-live="polite"></div>
+
+      <div class="note">
+        * Puedes editar nombres o eliminar equipos. En la siguiente sección genera el calendario.
+      </div>
+    </section>
+
+    <section id="fixtures-section" class="card">
+      <div class="row between">
+        <h2>Fechas / Partidos</h2>
+        <div class="controls">
+          <label for="round-filter">Mostrar:</label>
+          <select id="round-filter"></select>
+
+          <label class="chk">
+            <input id="show-only-played" type="checkbox" /> Jugados
+          </label>
+          <label class="chk">
+            <input id="show-only-unplayed" type="checkbox" /> Sin jugar
+          </label>
+
+          <button id="clear-filters" class="btn outline">Limpiar filtros</button>
+        </div>
+      </div>
+
+      <div id="rounds-container" class="rounds-list"></div>
+    </section>
+
+    <section id="standings-section" class="card">
+      <div class="row between">
+        <h2>Tabla de posiciones</h2>
+        <div class="controls">
+          <button id="export-json" class="btn">Exportar (JSON)</button>
+          <button id="import-json" class="btn outline">Importar (JSON)</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="standings-table" class="standings">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Equipo</th>
+              <th data-sort="played" class="sortable">PJ</th>
+              <th data-sort="wins" class="sortable">PG</th>
+              <th data-sort="draws" class="sortable">PE</th>
+              <th data-sort="losses" class="sortable">PP</th>
+              <th data-sort="gf" class="sortable">GF</th>
+              <th data-sort="gc" class="sortable">GC</th>
+              <th data-sort="gd" class="sortable">DG</th>
+              <th data-sort="pts" class="sortable">Pts</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="actions row">
+        <button id="generate-cuadrangulares" class="btn primary" disabled>Generar Cuadrangulares</button>
+        <button id="reset-btn" class="btn danger">Reiniciar todo</button>
+      </div>
+    </section>
+
+    <section id="cuadrangulares-section" class="card hidden">
+      <h2>Cuadrangulares</h2>
+      <div id="groups-container" class="groups"></div>
+    </section>
+
+    <footer class="site-footer">
+      <small>Proyecto local — con integración API-Football para escudos y equipos reales 2025.</small>
+    </footer>
+
+    <input id="import-file" type="file" accept="application/json" class="hidden" />
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
