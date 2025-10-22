@@ -4,8 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Calculadora Fútbol Colombiano - Prototipo</title>
-  <link rel="stylesheet" href="styles.css" />
+
+  <!-- 🔗 RUTA CORRECTA HACIA EL CSS -->
+  <link rel="stylesheet" href="../assets/styles/styles.css" />
 </head>
+
 <body>
   <header class="site-header">
     <h1>Calculadora - Campeonato Colombiano</h1>
@@ -13,16 +16,22 @@
       Ingresa resultados, simula fechas y genera cuadrangulares.
       Guardado local en tu navegador.
     </p>
+    <select id="theme-selector">
+      <option value="dark">🌑 Oscuro</option>
+      <option value="light">☀️ Claro</option>
+      <option value="blue">💙 Azul GitHub</option>
+    </select>
+    
   </header>
 
   <main class="container">
+    <!-- ========== SECCIÓN EQUIPOS ========== -->
     <section id="settings" class="card">
       <div class="row between">
         <h2>Equipos</h2>
         <div class="controls">
           <button id="load-sample-btn" class="btn">Cargar 20 equipos</button>
           <button id="add-team-btn" class="btn">Agregar equipo</button>
-          <!-- Nuevo botón para API-FOOTBALL -->
           <button id="load-api-football" class="btn outline">Cargar equipos reales (API-Football)</button>
           <button id="generate-fixtures-btn" class="btn outline">Generar calendario</button>
         </div>
@@ -35,6 +44,7 @@
       </div>
     </section>
 
+    <!-- ========== SECCIÓN FECHAS / PARTIDOS ========== -->
     <section id="fixtures-section" class="card">
       <div class="row between">
         <h2>Fechas / Partidos</h2>
@@ -56,6 +66,7 @@
       <div id="rounds-container" class="rounds-list"></div>
     </section>
 
+    <!-- ========== SECCIÓN TABLA DE POSICIONES ========== -->
     <section id="standings-section" class="card">
       <div class="row between">
         <h2>Tabla de posiciones</h2>
@@ -87,22 +98,27 @@
 
       <div class="actions row">
         <button id="generate-cuadrangulares" class="btn primary" disabled>Generar Cuadrangulares</button>
+        <button id="simulate-results" class="btn outline">Simular Resultados</button>
         <button id="reset-btn" class="btn danger">Reiniciar todo</button>
       </div>
     </section>
 
+    <!-- ========== SECCIÓN CUADRANGULARES ========== -->
     <section id="cuadrangulares-section" class="card hidden">
       <h2>Cuadrangulares</h2>
       <div id="groups-container" class="groups"></div>
     </section>
 
+    <!-- ========== FOOTER ========== -->
     <footer class="site-footer">
       <small>Proyecto local — con integración API-Football para escudos y equipos reales 2025.</small>
     </footer>
 
+    <!-- Campo oculto para importar JSON -->
     <input id="import-file" type="file" accept="application/json" class="hidden" />
   </main>
 
-  <script src="main.js"></script>
+  <!-- ⚙️ RUTA CORRECTA HACIA TU SCRIPT -->
+  <script src="../js/main.js" defer></script>
 </body>
 </html>

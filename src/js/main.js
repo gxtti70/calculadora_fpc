@@ -48,26 +48,28 @@ function placeholderDataURI(){ return placeholderCrest("EQ"); }
 -----------------------------*/
 async function loadTeamsFromLocalJSON() {
   try {
-    const res = await fetch("teams.json");
+    // Ruta actualizada según la ubicación del index.html
+    const res = await fetch("../data/teams.json");
     if (!res.ok) throw new Error("Error al cargar JSON");
     const data = await res.json();
 
     state.teams = data.map(t => ({
-      id: t.id,
+      id: t.id || uid("t"),
       name: t.name,
-      crest: t.crest
+      crest: t.crest || placeholderCrest(t.name)
     }));
 
     state.fixtures = [];
     saveState();
     recalcStandings();
     renderAll();
-    alert("✅ Equipos cargados correctamente.");
+    alert("Equipos cargados correctamente.");
   } catch (err) {
-    console.error("❌ Error al cargar equipos:", err);
-    alert("No se pudieron cargar los equipos locales.");
+    console.error("Error al cargar equipos:", err);
+    alert("No se pudieron cargar los equipos.");
   }
 }
+
 
 /* ----------------------------
    Render equipos
@@ -140,7 +142,7 @@ function populateRoundFilter() {
 }
 
 /* ----------------------------
-   Render calendario con flechas y filtros
+   Render calendario (versión moderna minimalista)
 -----------------------------*/
 let currentRoundIndex = 0;
 
@@ -148,7 +150,7 @@ function renderFixtures() {
   roundsContainer.innerHTML = "";
 
   if (!state.fixtures.length) {
-    roundsContainer.innerHTML = `<div class="note">No hay calendario. Genera el calendario con "Generar calendario".</div>`;
+    roundsContainer.innerHTML = `<div class="note">⚠️ No hay calendario. Genera uno primero.</div>`;
     populateRoundFilter();
     return;
   }
@@ -160,84 +162,72 @@ function renderFixtures() {
   let filteredRounds = allRounds;
   if (filter !== "all") filteredRounds = allRounds.filter(r => String(r) === String(filter));
 
-  if (currentRoundIndex >= filteredRounds.length) currentRoundIndex = filteredRounds.length - 1;
-  if (currentRoundIndex < 0) currentRoundIndex = 0;
-
+  currentRoundIndex = Math.max(0, Math.min(currentRoundIndex, filteredRounds.length - 1));
   const currentRound = filteredRounds[currentRoundIndex];
-  let matches = state.fixtures.filter(f => f.round === currentRound);
 
-  // Filtros jugados / sin jugar
-  matches = matches.filter(m => {
-    const played = m.homeScore !== null && m.awayScore !== null;
-    if (state.ui.showOnlyPlayed && !played) return false;
-    if (state.ui.showOnlyUnplayed && played) return false;
-    return true;
-  });
-
-  const total = state.fixtures.filter(f => f.round === currentRound).length;
-  const playedCount = state.fixtures.filter(f => f.round === currentRound && f.homeScore !== null && f.awayScore !== null).length;
+  const matches = state.fixtures.filter(f => f.round === currentRound);
+  const total = matches.length;
+  const playedCount = matches.filter(f => f.homeScore != null && f.awayScore != null).length;
 
   const wrapper = document.createElement("div");
-  wrapper.className = "round-wrapper";
+  wrapper.className = "calendar-card";
 
   const nav = document.createElement("div");
-  nav.className = "round-nav";
+  nav.className = "calendar-nav";
   nav.innerHTML = `
-    <button class="nav-btn" id="prev-round" ${currentRoundIndex === 0 ? "disabled" : ""}>⬅️</button>
-    <h3>Fecha ${currentRound} de ${allRounds.length}</h3>
-    <button class="nav-btn" id="next-round" ${currentRoundIndex === filteredRounds.length - 1 ? "disabled" : ""}>➡️</button>
+    <button class="nav-btn" id="prev-round" ${currentRoundIndex === 0 ? "disabled" : ""}>←</button>
+    <h3>Fecha ${currentRound} <span class="sub">(${playedCount}/${total} partidos)</span></h3>
+    <button class="nav-btn" id="next-round" ${currentRoundIndex === filteredRounds.length - 1 ? "disabled" : ""}>→</button>
   `;
 
-  const counter = document.createElement("div");
-  counter.className = "match-counter";
-  counter.textContent = `Partidos jugados: ${playedCount} / ${total}`;
+  const list = document.createElement("div");
+  list.className = "matches-grid";
 
-  const tbl = document.createElement("table");
-  tbl.className = "fixtures-table";
-  tbl.innerHTML = `<thead><tr><th>Local</th><th>Marcador</th><th>Visitante</th></tr></thead><tbody></tbody>`;
+  matches.forEach(m => {
+    const home = state.teams.find(t=>t.id===m.homeId);
+    const away = state.teams.find(t=>t.id===m.awayId);
+    const homeCrest = home?.crest || placeholderDataURI();
+    const awayCrest = away?.crest || placeholderDataURI();
 
-  if (matches.length === 0) {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td colspan="3" style="padding:20px;color:#9fd6b6;">No hay partidos que coincidan con los filtros.</td>`;
-    tbl.querySelector("tbody").appendChild(tr);
-  } else {
-    matches.forEach(m => {
-      const home = state.teams.find(t=>t.id===m.homeId);
-      const away = state.teams.find(t=>t.id===m.awayId);
-      const tr = document.createElement("tr");
-      const homeCrest = home?.crest || placeholderDataURI();
-      const awayCrest = away?.crest || placeholderDataURI();
-
-      tr.innerHTML = `
-        <td class="team"><div class="team-box"><img src="${homeCrest}" alt="${home?.name ?? ""}" /><span>${escapeHtml(home?.name ?? "")}</span></div></td>
-        <td class="result"><input type="number" min="0" value="${m.homeScore ?? ""}" data-mid="${m.id}" data-side="home" /><span> - </span><input type="number" min="0" value="${m.awayScore ?? ""}" data-mid="${m.id}" data-side="away" /></td>
-        <td class="team"><div class="team-box"><span>${escapeHtml(away?.name ?? "")}</span><img src="${awayCrest}" alt="${away?.name ?? ""}" /></div></td>
-      `;
-      tbl.querySelector("tbody").appendChild(tr);
-    });
-  }
+    const div = document.createElement("div");
+    div.className = "match-item";
+    div.innerHTML = `
+      <div class="team-box home"><img src="${homeCrest}" /><span>${escapeHtml(home?.name ?? "")}</span></div>
+      <div class="score-box" data-mid="${m.id}">
+      <span class="score home" contenteditable="true" inputmode="numeric" maxlength="2">${m.homeScore ?? ""}</span>
+      <span class="dash">-</span>
+      <span class="score away" contenteditable="true" inputmode="numeric" maxlength="2">${m.awayScore ?? ""}</span>
+      
+      </div>
+      <div class="team-box away"><span>${escapeHtml(away?.name ?? "")}</span><img src="${awayCrest}" /></div>
+    `;
+    list.appendChild(div);
+  });
 
   wrapper.appendChild(nav);
-  wrapper.appendChild(counter);
-  wrapper.appendChild(tbl);
+  wrapper.appendChild(list);
   roundsContainer.appendChild(wrapper);
 
+  // Navegación entre fechas
   document.getElementById("prev-round").addEventListener("click", ()=>{ currentRoundIndex--; renderFixtures(); });
   document.getElementById("next-round").addEventListener("click", ()=>{ currentRoundIndex++; renderFixtures(); });
 
-  roundsContainer.querySelectorAll('input[type="number"]').forEach(inp=>{
-    inp.addEventListener("change", e=>{
-      const mid = inp.dataset.mid;
-      const side = inp.dataset.side;
-      const val = inp.value === "" ? null : parseInt(inp.value,10);
+  // Editar marcador con teclado
+  roundsContainer.querySelectorAll(".score").forEach(el=>{
+    el.addEventListener("input", e=>{
+      const mid = el.parentElement.dataset.mid;
       const match = state.fixtures.find(x=>x.id===mid);
-      if (!match) return;
-      if (side === "home") match.homeScore = val;
-      else match.awayScore = val;
-      saveState(); recalcStandings(); renderAll();
+      const homeEl = el.parentElement.querySelector(".home");
+      const awayEl = el.parentElement.querySelector(".away");
+      const homeVal = homeEl.textContent.trim();
+      const awayVal = awayEl.textContent.trim();
+      match.homeScore = homeVal === "" ? null : parseInt(homeVal);
+      match.awayScore = awayVal === "" ? null : parseInt(awayVal);
+      saveState(); recalcStandings(); renderStandings();
     });
   });
 }
+
 
 /* ----------------------------
    Simular campeonato completo
@@ -390,3 +380,24 @@ loadState();
 recalcStandings();
 populateRoundFilter();
 renderAll();
+
+/* =====================
+   Selector de tema
+===================== */
+const themeSelector = document.getElementById("theme-selector");
+
+themeSelector.addEventListener("change", () => {
+  const selected = themeSelector.value;
+  document.documentElement.setAttribute("data-theme", selected);
+  localStorage.setItem("preferred-theme", selected);
+});
+
+// Mantener tema al recargar
+const savedTheme = localStorage.getItem("preferred-theme");
+if (savedTheme) {
+  document.documentElement.setAttribute("data-theme", savedTheme);
+  themeSelector.value = savedTheme;
+} else {
+  document.documentElement.setAttribute("data-theme", "dark");
+}
+
