@@ -1,6 +1,8 @@
 // cuadrangulares.js - Sistema de cuadrangulares para los 8 primeros equipos
+(function(){
 
 const STORAGE_KEY = "liga_state_v4"; // Misma clave que main.js
+const CUADRANGULARES_KEY = "cuadrangulares_state_v1";
 
 let state = {
   teams: [],
@@ -31,6 +33,8 @@ function uid(prefix="id"){ return prefix + "_" + Math.random().toString(36).slic
 function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 function loadState(){ const raw = localStorage.getItem(STORAGE_KEY); if (raw) state = JSON.parse(raw); }
 function escapeHtml(s){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+function saveCuadState(){ localStorage.setItem(CUADRANGULARES_KEY, JSON.stringify(cuadrangularesState)); }
+function loadCuadState(){ const raw = localStorage.getItem(CUADRANGULARES_KEY); if (raw) { try { cuadrangularesState = JSON.parse(raw) || cuadrangularesState; } catch(_){} } }
 
 /* ----------------------------
    Placeholders
@@ -46,6 +50,8 @@ function placeholderDataURI(){ return placeholderCrest("EQ"); }
    Obtener los 8 primeros equipos
 -----------------------------*/
 function obtenerTop8Equipos() {
+  // Asegurar que traemos el mismo estado guardado por main.js
+  loadState();
   if (!state.standings || state.standings.length === 0) {
     alert("No hay tabla de posiciones calculada. Ve a la página principal y genera el calendario.");
     return null;
@@ -56,37 +62,28 @@ function obtenerTop8Equipos() {
     return null;
   }
   
-  return state.standings.slice(0, 8);
+  // Ordenar por los mismos criterios (pts desc, gd desc, gf desc)
+  const ordenados = [...state.standings].sort((a,b)=>{
+    if (a.pts !== b.pts) return b.pts - a.pts;
+    const gdA = (a.gf||0) - (a.gc||0);
+    const gdB = (b.gf||0) - (b.gc||0);
+    if (gdA !== gdB) return gdB - gdA;
+    if ((a.gf||0) !== (b.gf||0)) return (b.gf||0) - (a.gf||0);
+    return 0;
+  });
+  return ordenados.slice(0, 8);
 }
 
 /* ----------------------------
    Organizar equipos en grupos A y B
 -----------------------------*/
 function organizarGrupos(top8Equipos) {
-  // Los primeros 2 son cabezas de serie
-  const cabezaSerieA = top8Equipos[0];
-  const cabezaSerieB = top8Equipos[1];
-  
-  // Los equipos 3, 4, 5, 6 se distribuyen aleatoriamente
-  const equiposRestantes = top8Equipos.slice(2, 6);
-  
-  // Mezclar aleatoriamente los equipos restantes
-  const equiposMezclados = equiposRestantes.sort(() => Math.random() - 0.5);
-  
-  // Grupo A: Cabeza de serie + 2 equipos aleatorios
-  cuadrangularesState.grupos.A = [
-    cabezaSerieA,
-    equiposMezclados[0],
-    equiposMezclados[1]
-  ];
-  
-  // Grupo B: Cabeza de serie + 2 equipos aleatorios
-  cuadrangularesState.grupos.B = [
-    cabezaSerieB,
-    equiposMezclados[2],
-    equiposMezclados[3]
-  ];
-  
+  // Sembrado en serpiente (1-8):
+  // Grupo A: 1, 4, 5, 8  |  Grupo B: 2, 3, 6, 7
+  const gA = [ top8Equipos[0], top8Equipos[3], top8Equipos[4], top8Equipos[7] ];
+  const gB = [ top8Equipos[1], top8Equipos[2], top8Equipos[5], top8Equipos[6] ];
+  cuadrangularesState.grupos.A = gA;
+  cuadrangularesState.grupos.B = gB;
   return cuadrangularesState.grupos;
 }
 
@@ -95,71 +92,48 @@ function organizarGrupos(top8Equipos) {
 -----------------------------*/
 function generarPartidosCuadrangulares() {
   cuadrangularesState.partidos = [];
-  
-  // Partidos del Grupo A (3 equipos = 3 partidos)
-  const grupoA = cuadrangularesState.grupos.A;
-  cuadrangularesState.partidos.push({
-    id: "cuad_a_1",
-    grupo: "A",
-    local: grupoA[0],
-    visitante: grupoA[1],
-    localScore: null,
-    visitanteScore: null,
-    jugado: false
-  });
-  
-  cuadrangularesState.partidos.push({
-    id: "cuad_a_2", 
-    grupo: "A",
-    local: grupoA[1],
-    visitante: grupoA[2],
-    localScore: null,
-    visitanteScore: null,
-    jugado: false
-  });
-  
-  cuadrangularesState.partidos.push({
-    id: "cuad_a_3",
-    grupo: "A", 
-    local: grupoA[2],
-    visitante: grupoA[0],
-    localScore: null,
-    visitanteScore: null,
-    jugado: false
-  });
-  
-  // Partidos del Grupo B (3 equipos = 3 partidos)
-  const grupoB = cuadrangularesState.grupos.B;
-  cuadrangularesState.partidos.push({
-    id: "cuad_b_1",
-    grupo: "B",
-    local: grupoB[0],
-    visitante: grupoB[1],
-    localScore: null,
-    visitanteScore: null,
-    jugado: false
-  });
-  
-  cuadrangularesState.partidos.push({
-    id: "cuad_b_2",
-    grupo: "B", 
-    local: grupoB[1],
-    visitante: grupoB[2],
-    localScore: null,
-    visitanteScore: null,
-    jugado: false
-  });
-  
-  cuadrangularesState.partidos.push({
-    id: "cuad_b_3",
-    grupo: "B",
-    local: grupoB[2], 
-    visitante: grupoB[0],
-    localScore: null,
-    visitanteScore: null,
-    jugado: false
-  });
-  
+  const generarConJornadas = (grupoClave, equipos) => {
+    // Algoritmo round-robin (método del círculo) para 4 equipos
+    // Jornadas de ida (1..3)
+    const idx = [0,1,2,3];
+    const jornadas = [
+      [ [idx[0], idx[3]], [idx[1], idx[2]] ], // J1
+      [ [idx[3], idx[2]], [idx[0], idx[1]] ], // J2
+      [ [idx[2], idx[0]], [idx[1], idx[3]] ]  // J3
+    ];
+    // Crear partidos ida
+    jornadas.forEach((pares, rIdx) => {
+      pares.forEach(([l,v]) => {
+        cuadrangularesState.partidos.push({
+          id: `${grupoClave.toLowerCase()}_${l}${v}_r${rIdx+1}_${uid('m')}`,
+          grupo: grupoClave,
+          round: rIdx + 1,
+          local: equipos[l],
+          visitante: equipos[v],
+          localScore: null,
+          visitanteScore: null,
+          jugado: false
+        });
+      });
+    });
+    // Jornadas de vuelta (4..6) invirtiendo localía
+    jornadas.forEach((pares, rIdx) => {
+      pares.forEach(([l,v]) => {
+        cuadrangularesState.partidos.push({
+          id: `${grupoClave.toLowerCase()}_${l}${v}_r${rIdx+4}_${uid('m')}`,
+          grupo: grupoClave,
+          round: rIdx + 4,
+          local: equipos[v],
+          visitante: equipos[l],
+          localScore: null,
+          visitanteScore: null,
+          jugado: false
+        });
+      });
+    });
+  };
+  generarConJornadas('A', cuadrangularesState.grupos.A);
+  generarConJornadas('B', cuadrangularesState.grupos.B);
   return cuadrangularesState.partidos;
 }
 
@@ -266,7 +240,10 @@ function crearCuadrangulares() {
    Renderizar cuadrangulares en HTML
 -----------------------------*/
 function renderizarCuadrangulares() {
-  const container = document.getElementById('cuadrangulares-container');
+  let container = document.getElementById('cuadrangulares-container');
+  if (!container) {
+    container = document.getElementById('groups-container');
+  }
   if (!container) {
     console.error("No se encontró el contenedor de cuadrangulares");
     return;
@@ -285,6 +262,19 @@ function renderizarCuadrangulares() {
   ['A', 'B'].forEach(grupo => {
     html += `<div class="grupo-cuadrangulares">`;
     html += `<h3>Grupo ${grupo}</h3>`;
+    // Encabezado de equipos del grupo con escudos
+    const equiposGrupo = cuadrangularesState.grupos[grupo];
+    if (equiposGrupo && equiposGrupo.length) {
+      html += `<div class="teams-row" style="display:flex;gap:.5rem;justify-content:center;margin-bottom:0.75rem;flex-wrap:wrap">`;
+      equiposGrupo.forEach(eq => {
+        const crest = state.teams.find(t => t.id === eq.teamId)?.crest || placeholderCrest(eq.name);
+        html += `<div style="display:flex;align-items:center;gap:.35rem;background:rgba(255,255,255,0.04);padding:.35rem .5rem;border-radius:6px;border:1px solid rgba(255,255,255,0.06)">`;
+        html += `<img src="${crest}" alt="${eq.name}" style="width:22px;height:22px;border-radius:4px;background:transparent;object-fit:contain" />`;
+        html += `<span style="font-size:.9rem;color:#e6eef8">${eq.name}</span>`;
+        html += `</div>`;
+      });
+      html += `</div>`;
+    }
     
     // Tabla del grupo
     html += `<table class="tabla-grupo">`;
@@ -311,11 +301,18 @@ function renderizarCuadrangulares() {
     
     // Partidos del grupo
     html += `<h4>Partidos del Grupo ${grupo}</h4>`;
-    html += `<div class="partidos-grupo">`;
     
-    cuadrangularesState.partidos
-      .filter(p => p.grupo === grupo)
-      .forEach(partido => {
+    // Agrupar por jornada
+    const partidosGrupo = cuadrangularesState.partidos.filter(p => p.grupo === grupo);
+    const roundsMap = {};
+    partidosGrupo.forEach(p => { const r = p.round || 1; (roundsMap[r] ||= []).push(p); });
+    const rounds = Object.keys(roundsMap).map(n=>parseInt(n,10)).sort((a,b)=>a-b);
+    
+    rounds.forEach((r, idxRound) => {
+      html += `<details ${idxRound===0 ? 'open' : ''} class="round-wrapper">`;
+      html += `<summary style="cursor:pointer;user-select:none">Jornada ${r}</summary>`;
+      html += `<div class="partidos-grupo">`;
+      roundsMap[r].forEach(partido => {
         const localCrest = state.teams.find(t => t.id === partido.local.teamId)?.crest || placeholderCrest(partido.local.name);
         const visitanteCrest = state.teams.find(t => t.id === partido.visitante.teamId)?.crest || placeholderCrest(partido.visitante.name);
         
@@ -325,9 +322,9 @@ function renderizarCuadrangulares() {
         html += `<span>${partido.local.name}</span>`;
         html += `</div>`;
         html += `<div class="marcador">`;
-        html += `<input type="number" min="0" value="${partido.localScore || ''}" data-partido="${partido.id}" data-lado="local" />`;
+        html += `<input type="number" min="0" value="${partido.localScore ?? ''}" data-partido="${partido.id}" data-lado="local" />`;
         html += `<span> - </span>`;
-        html += `<input type="number" min="0" value="${partido.visitanteScore || ''}" data-partido="${partido.id}" data-lado="visitante" />`;
+        html += `<input type="number" min="0" value="${partido.visitanteScore ?? ''}" data-partido="${partido.id}" data-lado="visitante" />`;
         html += `</div>`;
         html += `<div class="equipo-visitante">`;
         html += `<span>${partido.visitante.name}</span>`;
@@ -335,16 +332,32 @@ function renderizarCuadrangulares() {
         html += `</div>`;
         html += `</div>`;
       });
+      html += `</div>`; // partidos-grupo
+      html += `</details>`;
+    });
     
-    html += `</div></div>`;
+    html += `</div>`;
   });
   
   html += '</div>';
   
   container.innerHTML = html;
+  const section = document.getElementById('cuadrangulares-section');
+  if (section && section.classList.contains('hidden')) {
+    section.classList.remove('hidden');
+  }
   
   // Agregar event listeners para los inputs de marcadores
   container.querySelectorAll('input[type="number"]').forEach(input => {
+    // Forzar entrada por teclado solamente (sin flechas/rueda)
+    input.setAttribute('step','1');
+    input.setAttribute('inputmode','numeric');
+    input.addEventListener('keydown', (ev)=>{
+      if (ev.key === 'ArrowUp' || ev.key === 'ArrowDown') ev.preventDefault();
+    });
+    input.addEventListener('wheel', (ev)=>{
+      ev.preventDefault();
+    }, { passive: false });
     input.addEventListener('change', function() {
       const partidoId = this.dataset.partido;
       const lado = this.dataset.lado;
@@ -361,7 +374,8 @@ function renderizarCuadrangulares() {
       
       partido.jugado = partido.localScore !== null && partido.visitanteScore !== null;
       
-      // Re-renderizar para actualizar tablas
+      // Guardar y re-renderizar para actualizar tablas
+      saveCuadState();
       renderizarCuadrangulares();
     });
   });
@@ -376,18 +390,31 @@ function inicializarCuadrangulares() {
   
   // Verificar que hay datos suficientes
   if (!state.teams || state.teams.length < 8) {
-    alert("❌ No hay suficientes equipos para crear cuadrangulares.\n\nVe a la página principal y carga al menos 8 equipos.");
+    alert("❌ No hay suficientes equipos para crear cuadrangulares.\n\nTe llevaré al inicio para que cargues los equipos.");
+    window.location.href = '/src/pages/index';
     return;
   }
   
   if (!state.standings || state.standings.length < 8) {
-    alert("❌ No hay tabla de posiciones calculada.\n\nVe a la página principal, genera el calendario y juega algunos partidos.");
+    alert("❌ No hay tabla de posiciones calculada.\n\nTe llevaré al inicio para que generes el calendario y juegues partidos.");
+    window.location.href = '/src/pages/index';
     return;
   }
   
   if (crearCuadrangulares()) {
     renderizarCuadrangulares();
-    alert("✅ Cuadrangulares creados exitosamente!\n\nLos primeros 2 equipos son cabezas de serie y tienen ventaja en caso de empate.");
+    saveCuadState();
+    // Mejorar UX en la página dedicada: deshabilitar botón y hacer scroll a resultados
+    const container = document.getElementById('cuadrangulares-container');
+    if (container) {
+      const actions = container.closest('.container')?.querySelector('.actions');
+      const createBtn = actions?.querySelector('button.btn.primary');
+      if (createBtn) {
+        createBtn.disabled = true;
+        createBtn.textContent = '✅ Cuadrangulares creados';
+      }
+      container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 }
 
@@ -400,17 +427,33 @@ window.cuadrangulares = {
 };
 
 /* ----------------------------
-   Inicialización automática
+   Inicialización automática robusta
 -----------------------------*/
-// Cargar datos y verificar si ya hay cuadrangulares creados
-document.addEventListener('DOMContentLoaded', () => {
+function initCuadrangularesPage(){
   loadState();
-  
-  // Si ya hay cuadrangulares creados, mostrarlos
+  loadCuadState();
+
+  const createBtn = document.getElementById('create-cuad-btn');
+  if (createBtn && !createBtn.__wired) {
+    createBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      inicializarCuadrangulares();
+    });
+    createBtn.__wired = true;
+  }
+
+  const backBtn = document.getElementById('back-home-btn');
+  if (backBtn && !backBtn.__wired) {
+    backBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = '/src/pages/';
+    });
+    backBtn.__wired = true;
+  }
+
   if (cuadrangularesState.partidos.length > 0) {
     renderizarCuadrangulares();
   } else {
-    // Mostrar mensaje de bienvenida
     const container = document.getElementById('cuadrangulares-container');
     if (container) {
       container.innerHTML = `
@@ -418,15 +461,22 @@ document.addEventListener('DOMContentLoaded', () => {
           <h3>🏆 Sistema de Cuadrangulares</h3>
           <p>Este sistema toma los 8 primeros equipos de la tabla de posiciones y los organiza en dos grupos:</p>
           <ul style="text-align: left; margin: 1rem 0;">
-            <li><strong>Grupo A:</strong> 1º lugar (cabeza de serie) + 2 equipos aleatorios</li>
-            <li><strong>Grupo B:</strong> 2º lugar (cabeza de serie) + 2 equipos aleatorios</li>
+            <li><strong>Grupo A:</strong> 1º, 4º, 5º y 8º (cabeza de serie: 1º)</li>
+            <li><strong>Grupo B:</strong> 2º, 3º, 6º y 7º (cabeza de serie: 2º)</li>
           </ul>
-          <p><strong>Total:</strong> 6 partidos (3 por grupo)</p>
-          <p><strong>Ventaja:</strong> Las cabezas de serie tienen ventaja en caso de empate</p>
+          <p><strong>Total:</strong> 12 partidos (6 por grupo)</p>
           <br>
           <p>Haz clic en "Crear Cuadrangulares" para comenzar.</p>
         </div>
       `;
     }
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initCuadrangularesPage);
+} else {
+  initCuadrangularesPage();
+}
+
+})();

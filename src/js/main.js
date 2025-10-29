@@ -83,26 +83,11 @@ function renderTeams() {
         <img src="${crest}" alt="${t.name} escudo" />
         <input data-id="${t.id}" type="text" value="${escapeHtml(t.name)}" />
       </div>
-      <div class="team-actions">
-        <button class="small-btn" data-action="remove" data-id="${t.id}">Eliminar</button>
-      </div>
     `;
     teamsListEl.appendChild(div);
   });
   
-  // Agregar event listeners para botones de eliminar
-  teamsListEl.querySelectorAll('button[data-action="remove"]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const teamId = e.target.dataset.id;
-      if (confirm("¿Eliminar este equipo?")) {
-        state.teams = state.teams.filter(t => t.id !== teamId);
-        state.fixtures = state.fixtures.filter(f => f.homeId !== teamId && f.awayId !== teamId);
-        saveState();
-        recalcStandings();
-        renderAll();
-      }
-    });
-  });
+  // Eliminado: controles para borrar equipos
   
   // Agregar event listeners para inputs de nombres de equipos
   teamsListEl.querySelectorAll('input[data-id]').forEach(input => {
@@ -257,6 +242,15 @@ function renderFixtures() {
   document.getElementById("next-round").addEventListener("click", ()=>{ currentRoundIndex++; renderFixtures(); });
 
   roundsContainer.querySelectorAll('input[type="number"]').forEach(inp=>{
+    // Forzar entrada por teclado solamente (sin flechas/rueda)
+    inp.setAttribute('step','1');
+    inp.setAttribute('inputmode','numeric');
+    inp.addEventListener('keydown', (ev)=>{
+      if (ev.key === 'ArrowUp' || ev.key === 'ArrowDown') ev.preventDefault();
+    });
+    inp.addEventListener('wheel', (ev)=>{
+      ev.preventDefault();
+    }, { passive: false });
     inp.addEventListener("change", e=>{
       const mid = inp.dataset.mid;
       const side = inp.dataset.side;
@@ -387,15 +381,10 @@ clearFiltersBtn.addEventListener("click", ()=>{
 document.getElementById("load-sample-btn").addEventListener("click", ()=>{
   if (confirm("¿Cargar equipos reales (archivo local)?")) loadTeamsFromLocalJSON();
 });
-document.getElementById("add-team-btn").addEventListener("click", ()=>{
-  const name = prompt("Nombre del equipo:");
-  if (name && name.trim()) {
-    const newTeam = { id: uid("team"), name: name.trim(), crest: null };
-    state.teams.push(newTeam);
-    saveState();
-    renderAll();
-  }
-});
+const addBtn = document.getElementById("add-team-btn");
+if (addBtn) {
+  // Desactivado: ya no se permite agregar equipos desde UI
+}
 document.getElementById("load-api-football").addEventListener("click", async ()=>{
   try {
     const res = await fetch("http://localhost:3000/teams");
@@ -487,20 +476,22 @@ const simBtn = document.createElement("button");
 simBtn.textContent = "🎮 Simular Campeonato";
 simBtn.className = "btn primary";
 simBtn.addEventListener("click", simulateChampionship);
-document.querySelector(".actions.row").appendChild(simBtn);
+const actionsRow = document.querySelector(".actions.row");
+if (actionsRow) {
+  actionsRow.appendChild(simBtn);
+}
 
-// 🏆 Botón cuadrangulares
-const cuadBtn = document.createElement("button");
-cuadBtn.textContent = "🏆 Crear Cuadrangulares";
-cuadBtn.className = "btn primary";
-cuadBtn.addEventListener("click", () => {
-  if (typeof window.cuadrangulares !== 'undefined') {
-    window.cuadrangulares.crear();
-  } else {
-    alert("Error: No se pudo cargar el módulo de cuadrangulares");
-  }
-});
-document.querySelector(".actions.row").appendChild(cuadBtn);
+// 🏆 Conectar botón cuadrangulares existente en el HTML
+const cuadBtnExisting = document.getElementById("generate-cuadrangulares");
+if (cuadBtnExisting) {
+  // Actualizar etiqueta y navegar a la URL de cuadrangulares
+  cuadBtnExisting.textContent = "🏆 Ir a Cuadrangulares";
+  cuadBtnExisting.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.location.href = "/src/pages/cuadrangulares";
+  });
+}
 
 /* ----------------------------
    Render global
@@ -516,6 +507,9 @@ function renderAll(){
    Inicio
 -----------------------------*/
 loadState();
-recalcStandings();
-populateRoundFilter();
-renderAll();
+// Solo inicializar UI completa si estamos en la página principal
+if (document.getElementById("standings-table")) {
+  recalcStandings();
+  populateRoundFilter();
+  renderAll();
+}

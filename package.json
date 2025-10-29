@@ -1,5 +1,10 @@
 {
     "type": "module",
+  "name": "calculadora_fpc",
+  "private": true,
+  "scripts": {
+    "start": "PORT=33537 node server.js"
+  },
     "dependencies": {
       "express": "^4.18.2",
       "node-fetch": "^3.3.2",
