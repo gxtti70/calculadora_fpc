@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>🏆 Calculadora Liga BetPlay 2025</title>
+  <link rel="stylesheet" href="../assets/styles/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1e40af;
+      --secondary-color: #3b82f6;
+      --accent-color: #f59e0b;
+      --success-color: #10b981;
+      --danger-color: #ef4444;
+      --dark-bg: #0f172a;
+      --card-bg: #1e293b;
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --border-color: #334155;
+      --gradient-primary: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--dark-bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .site-header {
+      background: var(--gradient-primary);
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .site-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      opacity: 0.3;
+    }
+    
+    .site-header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .subtitle {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      margin: 0;
+      position: relative;
+      z-index: 1;
+      font-weight: 300;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .card h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0 0 1.5rem 0;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .row.between {
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .btn:hover::before {
+      left: 100%;
+    }
+    
+    .btn.primary {
+      background: var(--gradient-primary);
+      color: white;
+      box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.3);
+    }
+    
+    .btn.primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px 0 rgba(59, 130, 246, 0.4);
+    }
+    
+    .btn.secondary {
+      background: var(--gradient-accent);
+      color: white;
+      box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.3);
+    }
+    
+    .btn.secondary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px 0 rgba(245, 158, 11, 0.4);
+    }
+    
+    .btn.outline {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+    }
+    
+    .btn.outline:hover {
+      background: var(--border-color);
+      color: var(--text-primary);
+    }
+    
+    .btn.danger {
+      background: var(--danger-color);
+      color: white;
+      box-shadow: 0 4px 14px 0 rgba(239, 68, 68, 0.3);
+    }
+    
+    .btn.danger:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.4);
+    }
+    
+    .teams-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    
+    .team-item {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+    
+    .team-item:hover {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: var(--secondary-color);
+    }
+    
+    .team-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+    }
+    
+    .team-left img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    
+    .team-left input {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 0.5rem;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      flex: 1;
+    }
+    
+    .team-left input:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    .small-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem;
+      background: var(--danger-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .small-btn:hover {
+      background: #dc2626;
+      transform: translateY(-1px);
+    }
+    
+    .note {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 8px;
+      padding: 1rem;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-top: 1rem;
+    }
+    
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+    
+    .standings {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card-bg);
+    }
+    
+    .standings th {
+      background: var(--dark-bg);
+      color: var(--text-primary);
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .standings td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-secondary);
+    }
+    
+    .standings tr:hover {
+      background: rgba(30, 41, 59, 0.5);
+    }
+    
+    .teamcell {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .teamcell img {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+    }
+    
+    .actions.row {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .site-footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      border-top: 1px solid var(--border-color);
+      margin-top: 3rem;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    /* Estilos para partidos y calendario */
+    .rounds-list {
+      margin-top: 1.5rem;
+    }
+    
+    .round-wrapper {
+      background: rgba(30, 41, 59, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border-color);
+    }
+    
+    .round-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    
+    .nav-btn {
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.2s ease;
+    }
+    
+    .nav-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+    
+    .nav-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .round-nav h3 {
+      margin: 0;
+      color: var(--text-primary);
+      font-size: 1.25rem;
+    }
+    
+    .match-counter {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+    
+    .fixtures-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .fixtures-table th {
+      background: var(--dark-bg);
+      color: var(--text-primary);
+      padding: 1rem;
+      text-align: center;
+      font-weight: 600;
+    }
+    
+    .fixtures-table td {
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .fixtures-table .team {
+      width: 35%;
+    }
+    
+    .fixtures-table .result {
+      width: 30%;
+    }
+    
+    .team-box {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+    
+    .team-box img {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+    }
+    
+    .fixtures-table input[type="number"] {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 0.5rem;
+      color: var(--text-primary);
+      text-align: center;
+      width: 60px;
+    }
+    
+    .fixtures-table input[type="number"]:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    @media (max-width: 768px) {
+      .site-header h1 {
+        font-size: 2rem;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
+      }
+      
+      .container {
+        padding: 1rem;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+      
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .btn {
+        justify-content: center;
+      }
+      
+      .teams-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <h1>🏆 Calculadora Liga BetPlay 2025</h1>
+    <p class="subtitle">
+      Sistema completo de gestión de campeonatos colombianos
+      <br>
+      <span style="font-size: 0.9rem; opacity: 0.8;">Simula partidos, genera calendarios y crea cuadrangulares automáticamente</span>
+    </p>
+  </header>
+
+  <main class="container">
+    <section id="settings" class="card">
+      <div class="row between">
+        <h2>⚽ Gestión de Equipos</h2>
+        <div class="controls">
+          <button id="load-sample-btn" class="btn secondary">📥 Cargar 20 equipos</button>
+          <button id="add-team-btn" class="btn outline">➕ Agregar equipo</button>
+          <button id="load-api-football" class="btn outline">🌐 Cargar equipos reales</button>
+          <button id="generate-fixtures-btn" class="btn primary">📅 Generar calendario</button>
+        </div>
+      </div>
+
+      <div id="teams-list" class="teams-grid" aria-live="polite"></div>
+
+      <div class="note">
+        💡 <strong>Consejo:</strong> Puedes editar nombres o eliminar equipos. Una vez que tengas tus equipos, genera el calendario en la siguiente sección.
+      </div>
+    </section>
+
+    <section id="fixtures-section" class="card">
+      <div class="row between">
+        <h2>📅 Calendario de Partidos</h2>
+        <div class="controls">
+          <label for="round-filter" style="color: var(--text-secondary); font-size: 0.875rem;">Mostrar:</label>
+          <select id="round-filter" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.5rem; color: var(--text-primary);"></select>
+
+          <label class="chk" style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">
+            <input id="show-only-played" type="checkbox" style="accent-color: var(--success-color);" /> ✅ Jugados
+          </label>
+          <label class="chk" style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">
+            <input id="show-only-unplayed" type="checkbox" style="accent-color: var(--accent-color);" /> ⏳ Sin jugar
+          </label>
+
+          <button id="clear-filters" class="btn outline">🔄 Limpiar filtros</button>
+        </div>
+      </div>
+
+      <div id="rounds-container" class="rounds-list"></div>
+    </section>
+
+    <section id="standings-section" class="card">
+      <div class="row between">
+        <h2>🏆 Tabla de Posiciones</h2>
+        <div class="controls">
+          <button id="export-json" class="btn outline">💾 Exportar datos</button>
+          <button id="import-json" class="btn outline">📁 Importar datos</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="standings-table" class="standings">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Equipo</th>
+              <th data-sort="played" class="sortable">PJ</th>
+              <th data-sort="wins" class="sortable">PG</th>
+              <th data-sort="draws" class="sortable">PE</th>
+              <th data-sort="losses" class="sortable">PP</th>
+              <th data-sort="gf" class="sortable">GF</th>
+              <th data-sort="gc" class="sortable">GC</th>
+              <th data-sort="gd" class="sortable">DG</th>
+              <th data-sort="pts" class="sortable">Pts</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="actions row">
+        <button id="generate-cuadrangulares" class="btn primary">🏆 Crear Cuadrangulares</button>
+        <button id="reset-btn" class="btn danger">🗑️ Reiniciar todo</button>
+      </div>
+    </section>
+
+    <section id="cuadrangulares-section" class="card hidden">
+      <h2>Cuadrangulares</h2>
+      <div id="groups-container" class="groups"></div>
+    </section>
+
+    <footer class="site-footer">
+      <small>🚀 <strong>Calculadora Liga BetPlay 2025</strong> — Sistema completo de gestión de campeonatos colombianos</small>
+      <br>
+      <small style="opacity: 0.7;">Desarrollado con ❤️ para el fútbol colombiano</small>
+    </footer>
+
+    <input id="import-file" type="file" accept="application/json" class="hidden" />
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+[
+  {
+    "id": "atletico_nacional",
+    "name": "Atlético Nacional",
+    "crest": "assets/images/crests/atletico_nacional.png"
+  },
+  {
+    "id": "millonarios",
+    "name": "Millonarios FC",
+    "crest": "assets/images/crests/millonarios.png"
+  },
+  {
+    "id": "america_cali",
+    "name": "América de Cali",
+    "crest": "assets/images/crests/america_cali.png"
+  },
+  {
+    "id": "deportivo_cali",
+    "name": "Deportivo Cali",
+    "crest": "assets/images/crests/deportivo_cali.png"
+  },
+  {
+    "id": "junior",
+    "name": "Junior FC",
+    "crest": "assets/images/crests/junior.png"
+  },
+  {
+    "id": "santa_fe",
+    "name": "Independiente Santa Fe",
+    "crest": "assets/images/crests/santa_fe.png"
+  },
+  {
+    "id": "independiente_medellin",
+    "name": "Independiente Medellín",
+    "crest": "assets/images/crests/independiente_medellin.png"
+  },
+  {
+    "id": "once_caldas",
+    "name": "Once Caldas",
+    "crest": "assets/images/crests/once_caldas.png"
+  },
+  {
+    "id": "deportes_tolima",
+    "name": "Deportes Tolima",
+    "crest": "assets/images/crests/deportes_tolima.png"
+  },
+  {
+    "id": "atletico_bucaramanga",
+    "name": "Atlético Bucaramanga",
+    "crest": "assets/images/crests/atletico_bucaramanga.png"
+  },
+  {
+    "id": "deportivo_pasto",
+    "name": "Deportivo Pasto",
+    "crest": "assets/images/crests/deportivo_pasto.png"
+  },
+  {
+    "id": "envigado",
+    "name": "Envigado FC",
+    "crest": "assets/images/crests/envigado.png"
+  },
+  {
+    "id": "aguilas_doradas",
+    "name": "Águilas Doradas",
+    "crest": "assets/images/crests/aguilas_doradas.png"
+  },
+  {
+    "id": "llaneros",
+    "name": "Llaneros FC",
+    "crest": "assets/images/crests/llaneros.png"
+  },
+  {
+    "id": "union_magdalena",
+    "name": "Unión Magdalena",
+    "crest": "assets/images/crests/union_magdalena.png"
+  },
+  {
+    "id": "fortaleza",
+    "name": "Fortaleza CEIF",
+    "crest": "assets/images/crests/fortaleza.png"
+  },
+  {
+    "id": "alianza_petrolera",
+    "name": "Alianza Petrolera",
+    "crest": "assets/images/crests/alianza_petrolera.png"
+  },
+  {
+    "id": "deportivo_pereira",
+    "name": "Deportivo Pereira",
+    "crest": "assets/images/crests/deportivo_pereira.png"
+  },
+  {
+    "id": "boyaca_chico",
+    "name": "Boyacá Chicó",
+    "crest": "assets/images/crests/boyaca_chico.png"
+  }
+]
