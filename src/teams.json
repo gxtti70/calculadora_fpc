@@ -93,5 +93,10 @@
     "id": "boyaca_chico",
     "name": "Boyacá Chicó",
     "crest": "/src/assets/images/crests/boyaca_chico.png"
+  },
+  {
+    "id": "equidad",
+    "name": "Equidad",
+    "crest": "/src/assets/images/crests/equidad.png"
   }
 ]

@@ -1,0 +1,353 @@
+{
+  "version": "2025-II",
+  "lastUpdate": "2025-10-31",
+  "fixtures": [
+    {
+      "round": 10,
+      "home": "santa_fe",
+      "away": "millonarios",
+      "homeScore": 1,
+      "awayScore": 1,
+      "played": true,
+      "date": "2025-10-26"
+    },
+    {
+      "round": 10,
+      "home": "atletico_nacional",
+      "away": "independiente_medellin",
+      "homeScore": 2,
+      "awayScore": 1,
+      "played": true,
+      "date": "2025-10-26"
+    },
+    {
+      "round": 10,
+      "home": "america_cali",
+      "away": "deportivo_cali",
+      "homeScore": 2,
+      "awayScore": 0,
+      "played": true,
+      "date": "2025-10-26"
+    },
+    {
+      "round": 10,
+      "home": "junior",
+      "away": "union_magdalena",
+      "homeScore": 3,
+      "awayScore": 0,
+      "played": true,
+      "date": "2025-10-26"
+    },
+    {
+      "round": 10,
+      "home": "once_caldas",
+      "away": "deportivo_pereira",
+      "homeScore": 1,
+      "awayScore": 1,
+      "played": true,
+      "date": "2025-10-26"
+    },
+    {
+      "round": 10,
+      "home": "deportivo_pasto",
+      "away": "boyaca_chico",
+      "homeScore": 1,
+      "awayScore": 0,
+      "played": true,
+      "date": "2025-10-26"
+    },
+    {
+      "round": 10,
+      "home": "deportes_tolima",
+      "away": "llaneros",
+      "homeScore": 2,
+      "awayScore": 1,
+      "played": true,
+      "date": "2025-10-26"
+    },
+    {
+      "round": 10,
+      "home": "equidad",
+      "away": "fortaleza",
+      "homeScore": 0,
+      "awayScore": 2,
+      "played": true,
+      "date": "2025-10-26"
+    },
+    {
+      "round": 10,
+      "home": "aguilas_doradas",
+      "away": "envigado",
+      "homeScore": 1,
+      "awayScore": 1,
+      "played": true,
+      "date": "2025-10-26"
+    },
+    {
+      "round": 10,
+      "home": "atletico_bucaramanga",
+      "away": "alianza_petrolera",
+      "homeScore": 2,
+      "awayScore": 0,
+      "played": true,
+      "date": "2025-10-26"
+    },
+    {
+      "round": 11,
+      "home": "deportes_tolima",
+      "away": "boyaca_chico",
+      "homeScore": 4,
+      "awayScore": 0,
+      "played": true,
+      "date": "2025-09-14"
+    },
+    {
+      "round": 11,
+      "home": "deportivo_pereira",
+      "away": "llaneros",
+      "homeScore": 0,
+      "awayScore": 0,
+      "played": true,
+      "date": "2025-09-14"
+    },
+    {
+      "round": 11,
+      "home": "deportivo_cali",
+      "away": "deportivo_pasto",
+      "homeScore": 2,
+      "awayScore": 1,
+      "played": true,
+      "date": "2025-09-14"
+    },
+    {
+      "round": 11,
+      "home": "santa_fe",
+      "away": "union_magdalena",
+      "homeScore": 2,
+      "awayScore": 0,
+      "played": true,
+      "date": "2025-09-14"
+    },
+    {
+      "round": 11,
+      "home": "atletico_nacional",
+      "away": "atletico_bucaramanga",
+      "homeScore": 0,
+      "awayScore": 1,
+      "played": true,
+      "date": "2025-09-14"
+    },
+    {
+      "round": 11,
+      "home": "once_caldas",
+      "away": "envigado",
+      "homeScore": 1,
+      "awayScore": 0,
+      "played": true,
+      "date": "2025-09-14"
+    },
+    {
+      "round": 11,
+      "home": "alianza_petrolera",
+      "away": "millonarios",
+      "homeScore": 3,
+      "awayScore": 0,
+      "played": true,
+      "date": "2025-09-14"
+    },
+    {
+      "round": 11,
+      "home": "fortaleza",
+      "away": "america_cali",
+      "homeScore": 1,
+      "awayScore": 0,
+      "played": true,
+      "date": "2025-09-14"
+    },
+    {
+      "round": 11,
+      "home": "junior",
+      "away": "equidad",
+      "homeScore": 1,
+      "awayScore": 1,
+      "played": true,
+      "date": "2025-09-14"
+    },
+    {
+      "round": 12,
+      "home": "atletico_bucaramanga",
+      "away": "deportes_tolima",
+      "homeScore": 2,
+      "awayScore": 0,
+      "played": true
+    },
+    {
+      "round": 12,
+      "home": "america_cali",
+      "away": "once_caldas",
+      "homeScore": 2,
+      "awayScore": 1,
+      "played": true
+    },
+    {
+      "round": 12,
+      "home": "envigado",
+      "away": "alianza_petrolera",
+      "homeScore": 0,
+      "awayScore": 0,
+      "played": true
+    },
+    {
+      "round": 12,
+      "home": "llaneros",
+      "away": "aguilas_doradas",
+      "homeScore": 0,
+      "awayScore": 1,
+      "played": true
+    },
+    {
+      "round": 12,
+      "home": "deportivo_pasto",
+      "away": "santa_fe",
+      "homeScore": 1,
+      "awayScore": 1,
+      "played": true
+    },
+    {
+      "round": 12,
+      "home": "equidad",
+      "away": "deportivo_cali",
+      "homeScore": 0,
+      "awayScore": 4,
+      "played": true
+    },
+    {
+      "round": 12,
+      "home": "millonarios",
+      "away": "fortaleza",
+      "homeScore": 3,
+      "awayScore": 2,
+      "played": true
+    },
+    {
+      "round": 12,
+      "home": "union_magdalena",
+      "away": "atletico_nacional",
+      "homeScore": 1,
+      "awayScore": 2,
+      "played": true
+    },
+    {
+      "round": 12,
+      "home": "independiente_medellin",
+      "away": "junior",
+      "homeScore": 2,
+      "awayScore": 2,
+      "played": true
+    },
+    {
+      "round": 12,
+      "home": "boyaca_chico",
+      "away": "deportivo_pereira",
+      "homeScore": 1,
+      "awayScore": 1,
+      "played": true
+    },
+    {
+      "round": 15,
+      "home": "deportes_tolima",
+      "away": "envigado",
+      "homeScore": 1,
+      "awayScore": 2,
+      "played": true
+    },
+    {
+      "round": 15,
+      "home": "america_cali",
+      "away": "equidad",
+      "homeScore": 3,
+      "awayScore": 2,
+      "played": true
+    },
+    {
+      "round": 15,
+      "home": "santa_fe",
+      "away": "llaneros",
+      "homeScore": 1,
+      "awayScore": 3,
+      "played": true
+    },
+    {
+      "round": 15,
+      "home": "alianza_petrolera",
+      "away": "junior",
+      "homeScore": 0,
+      "awayScore": 1,
+      "played": true
+    },
+    {
+      "round": 15,
+      "home": "atletico_bucaramanga",
+      "away": "union_magdalena",
+      "homeScore": 1,
+      "awayScore": 0,
+      "played": true
+    },
+    {
+      "round": 15,
+      "home": "aguilas_doradas",
+      "away": "deportivo_pasto",
+      "homeScore": 2,
+      "awayScore": 2,
+      "played": true
+    },
+    {
+      "round": 16,
+      "home": "deportivo_cali",
+      "away": "america_cali",
+      "homeScore": 0,
+      "awayScore": 2,
+      "played": true
+    },
+    {
+      "round": 16,
+      "home": "millonarios",
+      "away": "atletico_bucaramanga",
+      "homeScore": 1,
+      "awayScore": 1,
+      "played": true
+    },
+    {
+      "round": 17,
+      "home": "atletico_bucaramanga",
+      "away": "llaneros",
+      "homeScore": 2,
+      "awayScore": 0,
+      "played": true
+    },
+    {
+      "round": 18,
+      "home": "deportivo_pasto",
+      "away": "deportivo_pereira",
+      "homeScore": 4,
+      "awayScore": 0,
+      "played": true
+    },
+    {
+      "round": 18,
+      "home": "aguilas_doradas",
+      "away": "envigado",
+      "homeScore": 1,
+      "awayScore": 0,
+      "played": true
+    },
+    {
+      "round": 18,
+      "home": "alianza_petrolera",
+      "away": "deportivo_cali",
+      "homeScore": 1,
+      "awayScore": 0,
+      "played": true
+    }
+  ]
+}

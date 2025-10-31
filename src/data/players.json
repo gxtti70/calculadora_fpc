@@ -1,0 +1,97 @@
+{
+  "goleadores": [
+    {
+      "name": "Francisco Fydriszewski",
+      "teamId": "independiente_medellin",
+      "teamName": "Independiente Medellín",
+      "goals": 10
+    },
+    {
+      "name": "Carlos Lucumí",
+      "teamId": "alianza_petrolera",
+      "teamName": "Alianza Petrolera",
+      "goals": 8
+    },
+    {
+      "name": "Luciano Pons",
+      "teamId": "atletico_bucaramanga",
+      "teamName": "Atlético Bucaramanga",
+      "goals": 8
+    },
+    {
+      "name": "Yoshan Valois",
+      "teamId": "deportivo_pasto",
+      "teamName": "Deportivo Pasto",
+      "goals": 8
+    },
+    {
+      "name": "Juan Zapata",
+      "teamId": "once_caldas",
+      "teamName": "Once Caldas",
+      "goals": 7
+    },
+    {
+      "name": "Alfredo Morelos",
+      "teamId": "atletico_nacional",
+      "teamName": "Atlético Nacional",
+      "goals": 6
+    },
+    {
+      "name": "Omar Fernández",
+      "teamId": "santa_fe",
+      "teamName": "Independiente Santa Fe",
+      "goals": 6
+    },
+    {
+      "name": "Edwin Cardona",
+      "teamId": "atletico_nacional",
+      "teamName": "Atlético Nacional",
+      "goals": 5
+    },
+    {
+      "name": "Santiago Mosquera",
+      "teamId": "santa_fe",
+      "teamName": "Independiente Santa Fe",
+      "goals": 5
+    },
+    {
+      "name": "Bryan Ureña",
+      "teamId": "llaneros",
+      "teamName": "Llaneros FC",
+      "goals": 5
+    }
+  ],
+  "asistentes": [
+    {
+      "name": "Alfredo Morelos",
+      "teamId": "atletico_nacional",
+      "teamName": "Atlético Nacional",
+      "assists": 8
+    },
+    {
+      "name": "Omar Fernández",
+      "teamId": "santa_fe",
+      "teamName": "Independiente Santa Fe",
+      "assists": 6
+    },
+    {
+      "name": "Edwin Cardona",
+      "teamId": "atletico_nacional",
+      "teamName": "Atlético Nacional",
+      "assists": 6
+    },
+    {
+      "name": "Santiago Mosquera",
+      "teamId": "santa_fe",
+      "teamName": "Independiente Santa Fe",
+      "assists": 6
+    },
+    {
+      "name": "Bryan Ureña",
+      "teamId": "llaneros",
+      "teamName": "Llaneros FC",
+      "assists": 6
+    }
+  ]
+}
+

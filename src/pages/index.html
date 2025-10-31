@@ -6,6 +6,7 @@
   <title>🏆 Calculadora Liga BetPlay 2025</title>
   <link rel="stylesheet" href="/src/assets/styles/styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -92,7 +93,61 @@
       </div>
     </section>
 
-    
+    <section id="top-scorers-section" class="card">
+      <div class="row between">
+        <h2>⚽ Tabla de Goleadores</h2>
+      </div>
+      <div class="table-wrap">
+        <table id="top-scorers-table" class="standings">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Jugador</th>
+              <th>Equipo</th>
+              <th data-sort="goals" class="sortable">Goles</th>
+              <th data-sort="matches" class="sortable">Partidos</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="top-assists-section" class="card">
+      <div class="row between">
+        <h2>🎯 Tabla de Asistentes</h2>
+      </div>
+      <div class="table-wrap">
+        <table id="top-assists-table" class="standings">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Jugador</th>
+              <th>Equipo</th>
+              <th data-sort="assists" class="sortable">Asistencias</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="evolution-section" class="card">
+      <div class="row between">
+        <h2>📈 Evolución de Puntos</h2>
+        <div class="controls">
+          <label for="teams-chart-filter" class="filter-label">Mostrar:</label>
+          <select id="teams-chart-filter" class="round-filter-select">
+            <option value="top5">Top 5</option>
+            <option value="top10">Top 10</option>
+            <option value="all">Todos</option>
+          </select>
+        </div>
+      </div>
+      <div style="position: relative; height: 400px; margin-top: 1rem;">
+        <canvas id="evolution-chart"></canvas>
+      </div>
+    </section>
 
     <footer class="site-footer">
       <small>🚀 <strong>Calculadora Liga BetPlay 2025</strong> — Sistema completo de gestión de campeonatos colombianos</small>
@@ -103,6 +158,6 @@
     <input id="import-file" type="file" accept="application/json" class="hidden" />
   </main>
 
-  <script src="/src/js/main.js"></script>
+    <script type="module" src="/src/js/main.js"></script>
 </body>
 </html>

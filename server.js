@@ -21,6 +21,11 @@ app.get('/cuadrangulares', (_req, res) => {
   res.sendFile(path.join(__dirname, 'src', 'pages', 'cuadrangulares.html'));
 });
 
+// Ruta directa a final
+app.get('/final', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'src', 'pages', 'final.html'));
+});
+
 // Redirección para URL incorrecta reportada: /src/cuadrangulares -> /src/pages/cuadrangulares
 app.get('/src/cuadrangulares', (_req, res) => {
   res.redirect(302, '/src/pages/cuadrangulares');

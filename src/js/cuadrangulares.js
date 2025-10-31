@@ -219,6 +219,22 @@ function calcularTablaCuadrangulares() {
 }
 
 /* ----------------------------
+   Guardar ganadores de cuadrangulares para la final
+-----------------------------*/
+function guardarGanadoresCuadrangulares() {
+  const tablas = calcularTablaCuadrangulares();
+  const ganadores = {
+    grupoA: tablas.A.length > 0 ? tablas.A[0].equipo : null,
+    grupoB: tablas.B.length > 0 ? tablas.B[0].equipo : null
+  };
+  
+  // Guardar en localStorage para la página final
+  localStorage.setItem('finalistas_cuadrangulares', JSON.stringify(ganadores));
+  
+  console.log("🏆 Ganadores guardados para la final:", ganadores);
+}
+
+/* ----------------------------
    Crear cuadrangulares completos
 -----------------------------*/
 function crearCuadrangulares() {
@@ -376,6 +392,7 @@ function renderizarCuadrangulares() {
       
       // Guardar y re-renderizar para actualizar tablas
       saveCuadState();
+      guardarGanadoresCuadrangulares(); // Guardar ganadores para la final
       renderizarCuadrangulares();
     });
   });
@@ -402,6 +419,7 @@ function inicializarCuadrangulares() {
   }
   
   if (crearCuadrangulares()) {
+    guardarGanadoresCuadrangulares(); // Guardar ganadores iniciales
     renderizarCuadrangulares();
     saveCuadState();
     // Mejorar UX en la página dedicada: deshabilitar botón y hacer scroll a resultados
@@ -446,12 +464,42 @@ function initCuadrangularesPage(){
   if (backBtn && !backBtn.__wired) {
     backBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      window.location.href = '/src/pages/';
+      window.location.href = '/';
     });
     backBtn.__wired = true;
   }
 
+  const clearBtn = document.getElementById('clear-cuad-btn');
+  if (clearBtn && !clearBtn.__wired) {
+    clearBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (confirm('¿Estás seguro de que deseas limpiar todos los cuadrangulares? Esto eliminará todos los grupos y partidos.')) {
+        cuadrangularesState = {
+          grupos: {
+            A: [],
+            B: []
+          },
+          partidos: [],
+          resultados: []
+        };
+        saveCuadState();
+        location.reload();
+      }
+    });
+    clearBtn.__wired = true;
+  }
+
+  const goFinalBtn = document.getElementById('go-final-btn');
+  if (goFinalBtn && !goFinalBtn.__wired) {
+    goFinalBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = '/final';
+    });
+    goFinalBtn.__wired = true;
+  }
+
   if (cuadrangularesState.partidos.length > 0) {
+    guardarGanadoresCuadrangulares(); // Actualizar ganadores al cargar
     renderizarCuadrangulares();
   } else {
     const container = document.getElementById('cuadrangulares-container');
